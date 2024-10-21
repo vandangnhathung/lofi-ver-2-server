@@ -18,7 +18,6 @@ app.get('/login', (req, res) => {
     const scopes = ['streaming', 'user-read-private', 'user-read-email', 'user-modify-playback-state', 'user-read-playback-state'];
     const authorizeURL = spotifyApi.createAuthorizeURL(scopes);
     res.redirect(authorizeURL);
-
 });
 
 app.get('/callback', async (req, res) => {
@@ -28,9 +27,8 @@ app.get('/callback', async (req, res) => {
         const { access_token, refresh_token } = data.body;
         spotifyApi.setAccessToken(access_token);
         spotifyApi.setRefreshToken(refresh_token);
-
         // Redirect to your frontend with the tokens
-        res.redirect(`http://localhost:5173?access_token=${access_token}&refresh_token=${refresh_token}`);
+        res.redirect(`${process.env.FRONTEND_URL}?access_token=${access_token}&refresh_token=${refresh_token}`);
     } catch (error) {
         console.error('Error getting tokens:', error);
         res.status(500).send('Authentication failed');
@@ -61,7 +59,12 @@ app.get('/search', async (req, res) => {
     }
 });
 
-const PORT = process.env.PORT || 3002;
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+// For local development
+if (process.env.NODE_ENV !== 'production') {
+    const PORT = process.env.PORT || 3002;
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
+    });
+}
+
+module.exports = app;

@@ -1,14 +1,11 @@
 {
-  "homepage": "https://vandangnhathung.github.io/lofi-ver-2-server",
   "name": "server",
   "version": "1.0.0",
   "description": "",
   "main": "server.js",
   "scripts": {
-    "devStart": "nodemon server.js",
     "start": "node server.js",
-    "build:gh-pages": "BASE_URL='/lofi-ver-2-server/' npm run build",
-    "build:root": "BASE_URL='/' npm run build"
+    "devStart": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
